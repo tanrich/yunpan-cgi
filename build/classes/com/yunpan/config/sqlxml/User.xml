@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="User">
+
+	<resultMap type="com.yunpan.bean.User" id="UserResult">
+		<id property="id" column="ID" jdbcType="INTEGER" />
+		<result property="username" column="USERNAME" jdbcType="VARCHAR" />
+		<result property="password" column="PASSWORD" jdbcType="VARCHAR" />
+
+	</resultMap>
+	<!-- 根据提供的用户id查找相关用户 -->
+	<select id="selectUser" parameterType="int" resultMap="UserResult">
+		SELECT ID,USERNAME,PASSWORD FROM user WHERE id= #{userid}
+	</select>
+<!-- 	根据用户名验证用户 -->
+	<select id="selectUsername" parameterType="String" resultMap="UserResult">
+		SELECT ID,USERNAME,PASSWORD from user where username=#{username}
+	</select>
+	<!-- 新增用户 -->
+	<insert id="insertUser" parameterType="com.yunpan.bean.User" 
+	useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO USER(username,password) VALUES(#{username},#{password});
+	</insert>
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<!-- <properties resource="application.properties"/> <typeAliases> <package 
+		name="com.mybatis3.domain"/> </typeAliases> <typeHandlers> <typeHandler handler="com.mybatis3.typehandlers.PhoneTypeHandler"/> 
+		</typeHandlers> -->
+
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url" value="jdbc:mysql://localhost:3306/yunpan" />
+				<property name="username" value="root" />
+				<property name="password" value="123456" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<mappers>
+		<mapper resource="com/yunpan/config/sqlxml/Document.xml"></mapper>
+		<mapper resource="com/yunpan/config/sqlxml/User.xml"></mapper>
+		<mapper resource="com/yunpan/config/sqlxml/UserFile.xml"></mapper>
+	</mappers>
+
+</configuration>

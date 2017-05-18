@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Document">
+
+	<resultMap type="com.yunpan.bean.Document" id="FileResult">
+		<id property="id" column="ID" jdbcType="INTEGER" />
+		<result property="fileName" column="FILENAME" jdbcType="VARCHAR" />
+		<result property="fileType" column="FILETYPE" jdbcType="VARCHAR" />
+		<result property="filePath" column="FILEPATH" jdbcType="VARCHAR" />
+		<result property="kinds" column="KINDS" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 根据文件ID查找文件 -->
+	<select id="selectFile" parameterType="int" resultMap="FileResult">
+		select
+		ID,FILENAME,FILETYPE,FILEPATH,KINDS FROM file where id=#{fileId}
+	</select>
+	<!-- 根据文件路径查找文件 -->
+	<select id="listFile" parameterType="String" resultMap="FileResult">
+		select
+		ID,FILENAME,FILETYPE,FILEPATH,KINDS FROM file where
+		FILEPATH=#{filePath}
+	</select>
+	<!-- 根据文件路径和名字查找文件 -->
+
+	<!-- 新增文件信息 -->
+	<insert id="insertFile" parameterType="com.yunpan.bean.Document"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		file(filename,filetype,filepath,kinds)
+		VALUES(#{fileName},#{fileType},#{filePath},#{kinds});
+	</insert>
+
+</mapper>

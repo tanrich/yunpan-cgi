@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserFile">
+
+	<resultMap type="com.yunpan.bean.UserFile" id="UserFileResult">
+		<id property="id" column="ID" jdbcType="INTEGER" />
+		<association property="userId" column="USERID"
+			javaType="com.yunpan.bean.User" select="User.selectUser"></association>
+		<association property="fileId" column="FILEID"
+			javaType="com.yunpan.bean.Document" select="File.selectFile"></association>
+
+	</resultMap>
+	<!-- 根据用户ID查找此用户的文件 -->
+	<select id="selectUserFile" parameterType="String" resultMap="UserFileResult">
+		select ID,FILEID from USER_FILE where USERID=#{userId}
+	</select>
+	<!-- 新增用户文件的关系 -->
+	<insert id="insertUserFile" parameterType="com.yunpan.bean.UserFile"
+		keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO user_file(userId,fileId) VALUES(#{userId.id},#{fileId.id});
+	</insert>
+</mapper>
