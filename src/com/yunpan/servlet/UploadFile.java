@@ -66,14 +66,16 @@ public class UploadFile extends HttpServlet {
 		String filePath = "/" + username;
 		System.out.println(filePath);
 		String systemPath = null;
-//		if (path.isEmpty() || path == null || path.equals("/")) {
-//			System.out.println("11111");
+		System.out.println(path);
+		if (path == null || path.equals("/")) {
+			System.out.println("11111");
 			systemPath = req.getServletContext().getRealPath("/upload/") + username;
-//		} else{
-//			System.out.println("2222");
-//			systemPath = req.getServletContext().getRealPath("/upload/") + username + "/" + path;
-//			
-//		}
+		} else{
+			System.out.println("2222");
+			filePath = "/" + username + "/" + path;
+			systemPath = req.getServletContext().getRealPath("/upload/") + username + "/" + path;
+			
+		}
 		System.out.println(systemPath);
 		File file = new File(systemPath);
 		// 判断上传文件夹是否存在
@@ -121,7 +123,7 @@ public class UploadFile extends HttpServlet {
 					File f = new File(ff);
 					if (!f.exists()) {
 						fileId = fileDao.uploadFile(doc);
-						Document document = fileDao.selectFile(fileId);
+						Document document = fileDao.selectFile(String.valueOf(fileId));
 						userFile.setFileId(document);
 						userFile.setUserId(user);
 						if (fileId != 0)

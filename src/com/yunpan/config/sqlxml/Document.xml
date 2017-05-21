@@ -13,7 +13,7 @@
 		<result property="kinds" column="KINDS" jdbcType="VARCHAR" />
 	</resultMap>
 	<!-- 根据文件ID查找文件 -->
-	<select id="selectFile" parameterType="int" resultMap="FileResult">
+	<select id="selectFile" parameterType="String" resultMap="FileResult">
 		select
 		ID,FILENAME,FILETYPE,FILEPATH,KINDS FROM file where id=#{fileId}
 	</select>
@@ -23,8 +23,19 @@
 		ID,FILENAME,FILETYPE,FILEPATH,KINDS FROM file where
 		FILEPATH=#{filePath}
 	</select>
-	<!-- 根据文件路径和名字查找文件 -->
-
+	<!-- 根据文件路径和名字查找单个文件 -->
+	<select id="selectOne" parameterType="com.yunpan.bean.Document"
+		resultMap="FileResult">
+		select
+		ID,FILENAME,FILETYPE,FILEPATH,KINDS FROM file where
+		FILEPATH=#{filePath} AND FILENAME=#{fileName}
+	</select>
+	<!-- 根据以前路径修改为现在所在的路径，为模糊修改 -->
+	<update id="modifyPath" parameterType="com.yunpan.bean.Document">
+		update file set
+		FILEPATH=REPLACE(FILEPATH,#{fileName},#{filePath}) where FILEPATH like
+		CONCAT('%',#{fileName},'%')
+	</update>
 	<!-- 新增文件信息 -->
 	<insert id="insertFile" parameterType="com.yunpan.bean.Document"
 		useGeneratedKeys="true" keyProperty="id">
@@ -32,5 +43,19 @@
 		file(filename,filetype,filepath,kinds)
 		VALUES(#{fileName},#{fileType},#{filePath},#{kinds});
 	</insert>
-
+	<!-- 删除文件 (用到文件名，文件路径) 删除文件夹同样要用此操作 -->
+	<delete id="deleteFile" parameterType="com.yunpan.bean.Document">
+		DELETE FROM file where
+		FILENAME=#{fileName} AND FILEPATH=#{filePath}
+	</delete>
+	<!-- 删除某个文件夹下所有文件，用到文件路径 -->
+	<delete id="deleteFolder" parameterType="String">
+		DELETE FROM file WHERE
+		filepath LIKE CONCAT('%',#{filepath},'%')
+	</delete>
+	<!-- 文件重命名，用到文件id -->
+	<update id="fileRename" parameterType="com.yunpan.bean.Document">
+		UPDATE file set
+		FILENAME=#{fileName} where ID=#{id}
+	</update>
 </mapper>

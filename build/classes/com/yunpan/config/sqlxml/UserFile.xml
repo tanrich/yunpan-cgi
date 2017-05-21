@@ -17,6 +17,7 @@
 	<select id="selectUserFile" parameterType="String" resultMap="UserFileResult">
 		select ID,FILEID from USER_FILE where USERID=#{userId}
 	</select>
+<!-- 	查找文件，用户id，文件id -->
 	<!-- 新增用户文件的关系 -->
 	<insert id="insertUserFile" parameterType="com.yunpan.bean.UserFile"
 		keyProperty="id" useGeneratedKeys="true">

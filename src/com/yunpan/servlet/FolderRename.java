@@ -8,20 +8,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yunpan.bean.Document;
 import com.yunpan.dao.FileDao;
 
-
-/**
- * 
- * 文件重命名
- *
- */
 @SuppressWarnings("serial")
-public class FileRename extends HttpServlet {
+public class FolderRename extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
@@ -31,37 +25,43 @@ public class FileRename extends HttpServlet {
 		FileDao fileDao = new FileDao();
 		PrintWriter out = resp.getWriter();
 		JSONObject json = new JSONObject();
-		// 获取要重命名的文件唯一id
-		String newFileName = req.getParameter("newFileName");
+		// 获取要重命名的文件名，和路径
 		String id = req.getParameter("id");
+		String newFolderName = req.getParameter("newFolderName");
+		
+		//测试
 		String filePath = null;
-		String fileType = null;
+		String oldFolderName = null;
 		String systemPath = null;
-		String oldFileName = null;
-		//
+		String oldFolderpath = null;
+		String newFolderpath = null;
 		try {
 			Document doc = fileDao.selectFile(id);
-			fileType = doc.getFileType();
+			oldFolderName = doc.getFileName();
 			filePath = doc.getFilePath();
-			oldFileName = doc.getFileName();
-			// 文件所在目录
-			systemPath = req.getServletContext().getRealPath("/upload") + filePath+"/";
-			System.out.println(systemPath);
-			File oldFile = new File(systemPath + oldFileName + "." + fileType);
-			File newFile = new File(systemPath + newFileName + "." + fileType);
-			System.out.println(oldFile.getPath());
-			System.out.println("new:"+newFile.getPath());
-			if (oldFile.exists()) {
-				if (!newFile.exists()) {
-					oldFile.renameTo(newFile);
-					fileDao.fileRename(newFileName, id);
+			oldFolderpath = filePath+"/"+oldFolderName;
+			newFolderpath = filePath+"/"+newFolderName;
+			//文件夹所在路径
+			systemPath = req.getServletContext().getRealPath("/upload")+filePath;
+			File oldFolder = new File(systemPath+"/"+oldFolderName);
+			File newFolder = new File(systemPath+"/"+newFolderName);
+			System.out.println("旧文件"+oldFolder.getPath());
+			System.out.println("新文件"+newFolder.getPath());
+			if(oldFolder.exists()){
+				if(!newFolder.exists()){
+					//磁盘修改
+					oldFolder.renameTo(newFolder);
+					//数据库修改
+					fileDao.fileRename(newFolderName, id);
+					//在此文件夹下所有文件在数据库中的路径进行修改
+					fileDao.folderRename(oldFolderpath, newFolderpath);
 					json.put("status", 1);
-				} else
+				}else
 					json.put("status", 0);
-			} else
+			}else
 				json.put("status", 0);
 		} catch (Exception e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		}
 		out.write(json.toString());
 		out.close();
@@ -69,6 +69,7 @@ public class FileRename extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		this.doGet(req, resp);
+		// TODO Auto-generated method stub
+		super.doPost(req, resp);
 	}
 }

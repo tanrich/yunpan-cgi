@@ -38,7 +38,7 @@ public class FileDao {
 	/**
 	 * 根据id查找file
 	 */
-	public Document selectFile(int fileId){
+	public Document selectFile(String fileId){
 		DBAccess db = new DBAccess();
 		SqlSession sqlSession=null;
 		Document file =null;
@@ -100,5 +100,94 @@ public class FileDao {
 			}
 		}
 		return doc;
+	}
+	/**
+	 * 文件重命名,
+	 */
+	public int fileRename(String newFileName,String id){
+		DBAccess db = new DBAccess();
+		Document doc = new Document();
+		doc.setFileName(newFileName);
+		doc.setId(Integer.parseInt(id));
+		SqlSession sqlSession=null;
+		try {
+			sqlSession = db.getSqlSession();
+			sqlSession.update("Document.fileRename",doc);
+			sqlSession.commit();
+		} catch (Exception e) {
+			return 	0;
+		}finally {
+			if (sqlSession != null) {
+				sqlSession.close();
+			}
+		}
+		return 1;
+		
+	}
+	/**
+	 * 文件夹重命名,模糊修改 
+	 */
+	
+	public int folderRename(String oldFolderpath,String newFolderpath){
+		DBAccess db = new DBAccess();
+		Document doc = new Document();
+		doc.setFileName(oldFolderpath);
+		doc.setFilePath(newFolderpath);
+		SqlSession sqlSession=null;
+		try {
+			sqlSession = db.getSqlSession();
+			sqlSession.update("Document.modifyPath",doc);
+			sqlSession.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if (sqlSession != null) {
+				sqlSession.close();
+			}
+		}
+		return 1;
+	}
+	/**
+	 * 删除单个文件
+	 */
+	public int deleteOne(String fileName,String filePath){
+		
+		DBAccess db = new DBAccess();
+		Document doc = new Document();
+		doc.setFileName(fileName);
+		doc.setFilePath(filePath);
+		SqlSession sqlSession=null;
+		try {
+			sqlSession = db.getSqlSession();
+			sqlSession.update("Document.deleteFile",doc);
+			sqlSession.commit();
+		} catch (Exception e) {
+			return 	0;
+		}finally {
+			if (sqlSession != null) {
+				sqlSession.close();
+			}
+		}
+		return 1;
+	}
+	/**
+	 * 删除某个文件夹下所有文件
+	 */
+	public int deleteFolder(String filePath){
+		DBAccess db = new DBAccess();
+
+		SqlSession sqlSession=null;
+		try {
+			sqlSession = db.getSqlSession();
+			sqlSession.update("Document.deleteFolder",filePath);
+			sqlSession.commit();
+		} catch (Exception e) {
+			return 	0;
+		}finally {
+			if (sqlSession != null) {
+				sqlSession.close();
+			}
+		}
+		return 1;
 	}
 }

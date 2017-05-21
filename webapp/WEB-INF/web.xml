@@ -104,6 +104,30 @@
 		<servlet-name>LogOut</servlet-name>
 		<url-pattern>/logout</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>DeleteFile</servlet-name>
+		<servlet-class>com.yunpan.servlet.DeleteFile</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteFile</servlet-name>
+		<url-pattern>/deletefile</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>DeleteFolder</servlet-name>
+		<servlet-class>com.yunpan.servlet.DeleteFolder</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DeleteFolder</servlet-name>
+		<url-pattern>/deletefolder</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>FolderRename</servlet-name>
+		<servlet-class>com.yunpan.servlet.FolderRename</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FolderRename</servlet-name>
+		<url-pattern>/folderrename</url-pattern>
+	</servlet-mapping>
 	<!-- 拦截器 -->
 	<filter>
 		<filter-name>Cors</filter-name>
