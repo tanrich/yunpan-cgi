@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yunpan.bean.Document;
 import com.yunpan.dao.FileDao;
 
 /**
@@ -27,44 +28,44 @@ public class DownLoadFile extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
-		resp.setContentType("text/html; charset=utf-8");
-		JSONObject json = new JSONObject();
-		PrintWriter out = resp.getWriter();
-		HttpSession session = req.getSession();
+//		JSONObject json = new JSONObject();
+//		PrintWriter out = resp.getWriter();
+	
 		// 获取数据库操作
 		FileDao fileDao = new FileDao();
-		// 获取需要下载的文件名字
-		String fileName = req.getParameter("fileName");
-		// 获取用户的名字
-		String username = (String) session.getAttribute("user");
-		// 获取下载的文件路径
-		String path = req.getParameter("filePath");
-		// 数据库里存的文件的路径
-		String filePath = "\\" + username + "\\" + path;
+		// 获取下载的文件id
+		String id = req.getParameter("id");
+		Document doc = new Document();
 		try {
-			//获取数据库中的文件扩展名
-//			String fileType = fileDao.listFile(filePath)
+			//获取数据库中的文件扩展名和文件路径
+			doc = fileDao.selectFile(id);
+			String fileType = doc.getFileType();
+			String filePath = doc.getFilePath();
+			String fileName  = doc.getFileName();
 			// 获取/upload/系统路径
-			String systemPath = req.getServletContext().getRealPath("/upload/") + filePath + "\\"+fileName;
+			String systemPath = req.getServletContext().getRealPath("/upload/")  +filePath+"/"+fileName+"."+fileType;
 			File file = new File(systemPath);
 			//判断文件是否存在,存在则下载，不存在则返回
+			String f = fileName+"."+fileType;
+			
 			if(file.exists()){
+				//设置文件MIME类型
+				resp.setContentType(getServletContext().getMimeType(f));
+				//设置Content-Disposition 
+				resp.setHeader("Content-Disposition", "attachment;filename="+f);
 				InputStream in = new FileInputStream(file);
 				OutputStream output = resp.getOutputStream();
-				int b;
-				while((b=in.read())!=-1){
+				byte []b = new byte[1024];
+				while(in.read(b)!=-1){
 					output.write(b);
 				}
 				in.close();
 				output.close();
-			}else
-			json.put("data", "文件不存在");
+			}
+			
 			
 		} catch (Exception e) {
-			json.put("data", "文件不存在");
-		}finally {
-			out.write(json.toString());
-			out.close();
+			e.printStackTrace();
 		}
 		
 		

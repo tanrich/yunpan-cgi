@@ -11,16 +11,29 @@
 			javaType="com.yunpan.bean.User" select="User.selectUser"></association>
 		<association property="fileId" column="FILEID"
 			javaType="com.yunpan.bean.Document" select="File.selectFile"></association>
-
+	</resultMap>
+	<resultMap type="com.yunpan.bean.Document" id="FileResult">
+		<id property="id" column="ID" jdbcType="INTEGER" />
+		<result property="fileName" column="FILENAME" jdbcType="VARCHAR" />
+		<result property="fileType" column="FILETYPE" jdbcType="VARCHAR" />
+		<result property="filePath" column="FILEPATH" jdbcType="VARCHAR" />
+		<result property="kinds" column="KINDS" jdbcType="VARCHAR" />
+		<result property="size" column="SIZE" jdbcType="DECIMAL" />
 	</resultMap>
 	<!-- 根据用户ID查找此用户的文件 -->
 	<select id="selectUserFile" parameterType="String" resultMap="UserFileResult">
 		select ID,FILEID from USER_FILE where USERID=#{userId}
 	</select>
-<!-- 	查找文件，用户id，文件id -->
 	<!-- 新增用户文件的关系 -->
 	<insert id="insertUserFile" parameterType="com.yunpan.bean.UserFile"
 		keyProperty="id" useGeneratedKeys="true">
-		INSERT INTO user_file(userId,fileId) VALUES(#{userId.id},#{fileId.id});
+		INSERT INTO user_file(userId,fileId)
+		VALUES(#{userId.id},#{fileId.id});
 	</insert>
+<!-- 	按照文件类型分类查询 -->
+	<select id="selectFileByKinds" parameterType="com.yunpan.bean.UserFile" resultMap="FileResult">
+		SELECT DISTINCT
+		file.id,file.filename,file.filepath,file.filetype,file.kinds,file.size
+		FROM file,user_file where user_file.userid =#{userId.id} AND file.kinds =#{fileId.kinds}
+	</select>
 </mapper>

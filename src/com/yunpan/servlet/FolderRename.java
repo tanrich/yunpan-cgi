@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yunpan.bean.Document;
@@ -45,8 +44,6 @@ public class FolderRename extends HttpServlet {
 			systemPath = req.getServletContext().getRealPath("/upload")+filePath;
 			File oldFolder = new File(systemPath+"/"+oldFolderName);
 			File newFolder = new File(systemPath+"/"+newFolderName);
-			System.out.println("旧文件"+oldFolder.getPath());
-			System.out.println("新文件"+newFolder.getPath());
 			if(oldFolder.exists()){
 				if(!newFolder.exists()){
 					//磁盘修改

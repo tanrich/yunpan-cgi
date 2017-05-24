@@ -8,21 +8,9 @@
 </head>
 
 <body>
-<tr>
-   <td nowrap width="437"></td>
-	<td>
-		<img id="img" src="/authImage" />
-		<a href='#' onclick="javascript:changeImg()"><label>看不清？</label></a>
-	</td>
- </tr>
+
+ <a href="/download">压缩包</a>
  
- 
- <!-- 触发JS刷新-->
-<script type="text/javascript">
-	function changeImg(){
-		var img = document.getElementById("img");  
-		img.src = "/authImage?date=" + new Date();
-	} 
-</script>
+
 </body>
 </html>

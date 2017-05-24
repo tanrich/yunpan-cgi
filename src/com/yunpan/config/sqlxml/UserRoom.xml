@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserRoom">
+
+	<resultMap type="com.yunpan.bean.UserRoom" id="UserRoomResult">
+		<id property="id" column="ID" jdbcType="INTEGER" />
+		<result property="size" column="SIZE" jdbcType="DECIMAL"/>
+		<association property="userId" column="USERID"
+			javaType="com.yunpan.bean.User" select="User.selectUser"></association>
+	</resultMap>
+<!-- 	查看用户剩余容量 -->
+	<select id="selectUserSize" parameterType="String" resultType="float">
+		SELECT SIZE from USERROOM where USERID=#{userId}
+	</select>
+	<!-- 新增用户空间的关系 -->
+	<insert id="insertUserSize" parameterType="String"
+		keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO USERROOM(userId) VALUES(#{userId});
+	</insert>
+<!-- 	更新用户空间 -->
+	<update id="updateUserSize" parameterType="com.yunpan.bean.UserRoom">
+		UPDATE USERROOM set size=#{size} where userId=#{user.id}
+	</update>
+</mapper>

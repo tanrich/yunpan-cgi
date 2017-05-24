@@ -38,7 +38,6 @@ public class FileRename extends HttpServlet {
 		String fileType = null;
 		String systemPath = null;
 		String oldFileName = null;
-		//
 		try {
 			Document doc = fileDao.selectFile(id);
 			fileType = doc.getFileType();
@@ -46,11 +45,8 @@ public class FileRename extends HttpServlet {
 			oldFileName = doc.getFileName();
 			// 文件所在目录
 			systemPath = req.getServletContext().getRealPath("/upload") + filePath+"/";
-			System.out.println(systemPath);
 			File oldFile = new File(systemPath + oldFileName + "." + fileType);
 			File newFile = new File(systemPath + newFileName + "." + fileType);
-			System.out.println(oldFile.getPath());
-			System.out.println("new:"+newFile.getPath());
 			if (oldFile.exists()) {
 				if (!newFile.exists()) {
 					oldFile.renameTo(newFile);

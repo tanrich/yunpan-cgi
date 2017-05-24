@@ -7,10 +7,26 @@
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
-
+	
+	<servlet>
+		<servlet-name>ValidateRoomSpace</servlet-name>
+		<servlet-class>com.yunpan.servlet.ValidateRoomSpace</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ValidateRoomSpace</servlet-name>
+		<url-pattern>/getroomspace</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ListByKinds</servlet-name>
+		<servlet-class>com.yunpan.servlet.ListByKinds</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ListByKinds</servlet-name>
+		<url-pattern>/getkinds</url-pattern>
+	</servlet-mapping>
 	<servlet>
 		<servlet-name>DownLoadFile</servlet-name>
-		<servlet-class>com.verifycode.login.DownLoadFile</servlet-class>
+		<servlet-class>com.yunpan.servlet.DownLoadFile</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>DownLoadFile</servlet-name>
@@ -110,15 +126,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>DeleteFile</servlet-name>
-		<url-pattern>/deletefile</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>DeleteFolder</servlet-name>
-		<servlet-class>com.yunpan.servlet.DeleteFolder</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>DeleteFolder</servlet-name>
-		<url-pattern>/deletefolder</url-pattern>
+		<url-pattern>/delete</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>FolderRename</servlet-name>
@@ -144,18 +152,27 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>login</filter-name>
-		<url-pattern>/getfile</url-pattern>
+		<url-pattern>/getallfiles</url-pattern>
 	</filter-mapping>
-	<filter-mapping>
+<!-- 	<filter-mapping>
 		<filter-name>login</filter-name>
 		<url-pattern>/download</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
 	<filter-mapping>
 		<filter-name>login</filter-name>
 		<url-pattern>/vchecklogin</url-pattern>
 	</filter-mapping>
-	<filter-mapping>
+<!-- 	<filter-mapping>
 		<filter-name>login</filter-name>
 		<url-pattern>/upload</url-pattern>
+	</filter-mapping> -->
+
+	<filter-mapping>
+		<filter-name>login</filter-name>
+		<url-pattern>/filerename</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>login</filter-name>
+		<url-pattern>/folderrename</url-pattern>
 	</filter-mapping>
 </web-app>

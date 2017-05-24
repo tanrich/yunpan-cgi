@@ -25,6 +25,7 @@ import com.yunpan.bean.UserFile;
 import com.yunpan.dao.FileDao;
 import com.yunpan.dao.UserDao;
 import com.yunpan.dao.UserFileDao;
+import com.yunpan.dao.UserRoomDao;
 import com.yunpan.service.FileClassifyService;
 
 /**
@@ -35,10 +36,11 @@ import com.yunpan.service.FileClassifyService;
 @SuppressWarnings("serial")
 public class UploadFile extends HttpServlet {
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html; charset=utf-8");
+		UserRoomDao userRoomDao= new UserRoomDao(); 
 		FileDao fileDao = new FileDao();
 		UserDao userDao = new UserDao();
 		UserFileDao userFileDao = new UserFileDao();
@@ -49,12 +51,9 @@ public class UploadFile extends HttpServlet {
 		// 获取用户名，文件路径（传到哪个文件夹下）
 
 		String path = null;
-		path = req.getParameter("path");
-		String username = (String) session.getAttribute("user");
-		// 测试数据
 
-		// 得到上传文件夹的路径
-		// /upload/tom
+		String username = (String) session.getAttribute("user");
+
 		User user = userDao.queryUser(username);
 		Document doc = new Document();
 		UserFile userFile = new UserFile();
@@ -62,27 +61,10 @@ public class UploadFile extends HttpServlet {
 		String fileType = null;
 		String kinds = null;
 		String fileName = null;
-		//String filePath = "/" + username + "/" + path;
-		String filePath = "/" + username;
-		System.out.println(filePath);
+		String filePath = null;
 		String systemPath = null;
-		System.out.println(path);
-		if (path == null || path.equals("/")) {
-			System.out.println("11111");
-			systemPath = req.getServletContext().getRealPath("/upload/") + username;
-		} else{
-			System.out.println("2222");
-			filePath = "/" + username + "/" + path;
-			systemPath = req.getServletContext().getRealPath("/upload/") + username + "/" + path;
-			
-		}
-		System.out.println(systemPath);
-		File file = new File(systemPath);
-		// 判断上传文件夹是否存在
-		if (!file.exists() && !file.isDirectory()) {
-			System.out.println(systemPath + "目录不存在，需要创建");
-			file.mkdir();
-		}
+		//上传文件大小
+		float fileSize;
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		// 创建一个文件上传解析器
 		ServletFileUpload upload = new ServletFileUpload(factory);
@@ -97,26 +79,41 @@ public class UploadFile extends HttpServlet {
 			for (FileItem item : list) {
 				// 如果fileitem中封装的是普通输入项的数据
 				if (item.isFormField()) {
-					String name = item.getFieldName();
 					// 解决普通输入项的数据的中文乱码问题
 					String value = item.getString("UTF-8");
 					// value = new String(value.getBytes("iso8859-1"),"UTF-8");
-					System.out.println(name + "=" + value);
+					path = value;
+					System.out.println("得到的path:::" + path);
+					if (path.equals("/")) {
+						systemPath = req.getServletContext().getRealPath("/upload/") + username;
+						filePath="/"+username;
+
+					} else {
+						systemPath = req.getServletContext().getRealPath("/upload/") + username + path;
+						filePath = "/" + username + path;
+					}
+
 				} else {// 如果fileitem中封装的是上传文件
 					// 得到上传的文件名称，
 					String filename = item.getName();
+					fileSize = item.getSize()/1048576;
+					System.out.println("上传大小："+fileSize+"Mb");
+					//查出用户剩余空间
+					float room = userRoomDao.selectRoom(String.valueOf(user.getId()));
+					if(room<fileSize){
+						break;
+					}
 					// 得到文件的名字 ，类型 ，
-					System.out.println("91:" + filename.length());
-					System.out.println("92:" + filename.substring(filename.lastIndexOf(".")));
 					fileName = filename.substring(0, filename.lastIndexOf("."));
 					fileType = filename.substring(filename.lastIndexOf(".") + 1);
 					kinds = fileCS.fileclassify(fileType);
-					System.out.println(fileName + "    " + fileType);
+
 					// 成功上传则 保存文件信息到数据库
 					doc.setFileName(fileName);
 					doc.setFileType(fileType);
 					doc.setFilePath(filePath);
 					doc.setKinds(kinds);
+					doc.setSize(fileSize);
 					// 判断是否存在此文件，如果在同一个目录下存在一样的文件，则进行覆盖，但是不进行数据库修改
 					String ff = systemPath + "/" + fileName + "." + fileType;
 					System.out.println(ff);
@@ -126,8 +123,10 @@ public class UploadFile extends HttpServlet {
 						Document document = fileDao.selectFile(String.valueOf(fileId));
 						userFile.setFileId(document);
 						userFile.setUserId(user);
-						if (fileId != 0)
+						if (fileId != 0){
 							fileId = userFileDao.insertUserFile(userFile);
+							userRoomDao.updateRoom(user, room-fileSize);
+						}
 						else
 							break;
 					}
@@ -176,10 +175,5 @@ public class UploadFile extends HttpServlet {
 			output.close();
 		}
 
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		this.doGet(req, resp);
 	}
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.yunpan.db.DBAccess;
+import com.yunpan.bean.Document;
 import com.yunpan.bean.UserFile;
 
 public class UserFileDao {
@@ -54,5 +55,27 @@ public class UserFileDao {
 			}
 		}
 		return id;
+	}
+	/**
+	 * ∑÷¿‡≤È—Ø
+	 */
+	public List<Document> listByKinds(UserFile userFile){
+		DBAccess db = new DBAccess();
+		List<Document> list = new ArrayList<Document>();
+		SqlSession sqlSession=null;
+		try {
+			sqlSession = db.getSqlSession();
+			list = sqlSession.selectList("UserFile.selectFileByKinds",userFile);
+			sqlSession.commit();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally {
+			if (sqlSession != null) {
+				sqlSession.close();
+			}
+		}
+		return list;
+		
 	}
 }

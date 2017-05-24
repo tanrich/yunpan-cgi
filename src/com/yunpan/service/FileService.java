@@ -1,5 +1,6 @@
 package com.yunpan.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -26,7 +27,18 @@ public class FileService {
 	}
 
 	/*
-	 * 修改某文件夹下所有文件在数据库中的路径
+	 * 递归删除某文件夹下所有文件
 	 */
-	
+	public void deleteFile(File oldPath) {
+		if (oldPath.isDirectory()) {
+			System.out.println(oldPath + "是文件夹--");
+			File[] files = oldPath.listFiles();
+			for (File file : files) {
+				deleteFile(file);
+			}
+			oldPath.delete();
+		} else {
+			oldPath.delete();
+		}
+	}
 }

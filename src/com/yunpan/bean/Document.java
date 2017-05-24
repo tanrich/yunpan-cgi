@@ -6,6 +6,13 @@ public class Document {
 	private String fileType;
 	private String filePath;
 	private String kinds;
+	private float size;
+	public float getSize() {
+		return size;
+	}
+	public void setSize(float size) {
+		this.size = size;
+	}
 	public String getKinds() {
 		return kinds;
 	}

@@ -42,7 +42,7 @@ public class UserDao {
 			user = sqlSession.selectOne("User.selectUsername", username);
 			sqlSession.commit();
 		} catch (IOException e) {
-			return null;
+			e.printStackTrace();
 		} finally {
 			if (sqlSession != null) {
 				sqlSession.close();

@@ -12,21 +12,21 @@ public class FileClassifyService {
 	public String fileclassify(String type) {
 		Map<String, String> map = new HashMap<String, String>();
 		// ÊÓÆµ
-		map.put("rmvb", "vidio");
-		map.put("wmv", "vidio");
-		map.put("rm", "vidio");
-		map.put("avi", "vidio");
-		map.put("mp4", "vidio");
+		map.put("rmvb", "video");
+		map.put("wmv", "video");
+		map.put("rm", "video");
+		map.put("avi", "video");
+		map.put("mp4", "video");
 		// music
 		map.put("wma", "music");
 		map.put("mpg", "music");
 		map.put("mp3", "music");
 		// picture
-		map.put("png", "music");
-		map.put("bmp", "music");
-		map.put("jpg", "music");
-		map.put("jpeg", "music");
-		map.put("gif", "music");
+		map.put("png", "picture");
+		map.put("bmp", "picture");
+		map.put("jpg", "picture");
+		map.put("jpeg", "picture");
+		map.put("gif", "picture");
 		// ÎÄµµ
 		map.put("doc", "document");
 		map.put("docx", "document");

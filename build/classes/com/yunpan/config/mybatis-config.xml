@@ -24,6 +24,7 @@
 		<mapper resource="com/yunpan/config/sqlxml/Document.xml"></mapper>
 		<mapper resource="com/yunpan/config/sqlxml/User.xml"></mapper>
 		<mapper resource="com/yunpan/config/sqlxml/UserFile.xml"></mapper>
+		<mapper resource="com/yunpan/config/sqlxml/UserRoom.xml"/>
 	</mappers>
 
 </configuration>

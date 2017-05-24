@@ -32,7 +32,7 @@ public class LoginFilter implements Filter {
 		if (session.getAttribute("user") != null) {
 			chain.doFilter(req, resp);
 		} else
-			json.put("status", "Î´µÇÂ¼");
+			json.put("status", 0);
 		out.write(json.toString());
 		out.flush();
 		out.close();

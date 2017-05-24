@@ -32,17 +32,18 @@ public class MkdirFolder extends HttpServlet {
 		HttpSession session = req.getSession();
 		// 获取文件夹要创建出来的路径，文件夹的名字
 		String path = req.getParameter("path");
+		System.out.println("shoudaode"+path);
 		String folderName = req.getParameter("folderName");
 		String username = (String) session.getAttribute("user");
 		String filePath = null;
 		String systemPath = null;
 		int id = 0;
-		if (path == null || path.isEmpty()||path.equals("/")) {
+		if (path.equals("/")) {
 			filePath = "/" + username;
 			systemPath = req.getServletContext().getRealPath("/upload") + filePath + "/" + folderName;
 		} else {
-			filePath = "/" + username + "/" + path;
-			systemPath = req.getServletContext().getRealPath("/upload") + filePath + "/" + path + "/" + folderName;
+			filePath = "/" + username + path;
+			systemPath = req.getServletContext().getRealPath("/upload") + filePath + "/" + folderName;
 		}
 		// 文件对象
 		Document doc = new Document();

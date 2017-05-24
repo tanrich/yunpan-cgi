@@ -37,19 +37,18 @@ public class ListAllFile extends HttpServlet {
 		String fPath = req.getParameter("path");
 		FileDao fileDao = new FileDao();
 		String path = null;
-		if (fPath == null || fPath.isEmpty()||fPath.equals("/")) {
+		if (fPath.equals("/")) {
 			path = "/" + username;
 		} else
-		path = "/" + username + fPath;
-		System.out.println("最后的结果：" + path);
+			path = "/" + username + fPath;
 		try {
 			// 获取此用户相关目录下的文件
 			List<Document> list = fileDao.listFile(path);
 			// 根据path
 			json.put("data", list);
-			
+
 		} catch (Exception e) {
-			json.put("data", "没有这个文件夹或者其他未知错误");
+			json.put("status", 0);
 		}
 		out.write(json.toString());
 		out.flush();

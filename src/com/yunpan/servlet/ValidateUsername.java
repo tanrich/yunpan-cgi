@@ -27,10 +27,8 @@ public class ValidateUsername extends HttpServlet {
 		PrintWriter out = resp.getWriter();
 		try {
 			String username = req.getParameter("r_username");
-			System.out.println(username);
 			UserDao userDao = new UserDao();
 			User user = userDao.queryUser(username);
-			System.out.println(user.getUsername());
 			if (user.getUsername().equals(username)) {
 				json.put("status", 0);
 			} else

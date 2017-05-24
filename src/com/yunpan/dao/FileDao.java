@@ -48,7 +48,7 @@ public class FileDao {
 			sqlSession.commit();
 			
 		} catch (IOException e) {
-			return file;
+			e.printStackTrace();
 		}finally {
 			if (sqlSession != null) {
 				sqlSession.close();
@@ -148,21 +148,18 @@ public class FileDao {
 		return 1;
 	}
 	/**
-	 * 删除单个文件
+	 * 删除单个文件或文件夹
 	 */
-	public int deleteOne(String fileName,String filePath){
+	public int deleteOne(String fileId){
 		
 		DBAccess db = new DBAccess();
-		Document doc = new Document();
-		doc.setFileName(fileName);
-		doc.setFilePath(filePath);
 		SqlSession sqlSession=null;
 		try {
 			sqlSession = db.getSqlSession();
-			sqlSession.update("Document.deleteFile",doc);
+			sqlSession.delete("Document.deleteFile",fileId);
 			sqlSession.commit();
 		} catch (Exception e) {
-			return 	0;
+			e.printStackTrace();
 		}finally {
 			if (sqlSession != null) {
 				sqlSession.close();
@@ -175,19 +172,34 @@ public class FileDao {
 	 */
 	public int deleteFolder(String filePath){
 		DBAccess db = new DBAccess();
-
 		SqlSession sqlSession=null;
 		try {
 			sqlSession = db.getSqlSession();
-			sqlSession.update("Document.deleteFolder",filePath);
+			sqlSession.delete("Document.deleteFolder",filePath);
 			sqlSession.commit();
 		} catch (Exception e) {
-			return 	0;
+			e.printStackTrace();
 		}finally {
 			if (sqlSession != null) {
 				sqlSession.close();
 			}
 		}
 		return 1;
+	}
+	/**
+	 * 获取某个文件夹下所有文件大小
+	 */
+	public float countSize(String filePath){
+		DBAccess db = new DBAccess();
+		SqlSession sqlSession=null;
+		float size =0;
+		try {
+			sqlSession = db.getSqlSession();
+			size = sqlSession.selectOne("Document.countSize", filePath);
+			sqlSession.commit();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return size;
 	}
 }

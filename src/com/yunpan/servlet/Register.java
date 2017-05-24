@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.alibaba.fastjson.JSONObject;
 import com.yunpan.bean.User;
 import com.yunpan.dao.UserDao;
+import com.yunpan.dao.UserRoomDao;
 
 @SuppressWarnings("serial")
 public class Register extends HttpServlet {
@@ -28,6 +29,7 @@ public class Register extends HttpServlet {
 		JSONObject json = new JSONObject();
 		PrintWriter out = resp.getWriter();
 		UserDao userDao = new UserDao();
+		UserRoomDao userRoomDao = new UserRoomDao();
 		User user = new User();
 		int x = 0;
 		try {
@@ -39,7 +41,10 @@ public class Register extends HttpServlet {
 				
 				x = userDao.insertUser(user);
 				if (x != 0) {
-					json.put("status", 1);
+					x = userRoomDao.insertRoom(String.valueOf(x));
+					if(x==1){
+						json.put("status", 1);
+					}	
 				} else {
 					json.put("status", 0);
 				}

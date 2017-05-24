@@ -19,10 +19,12 @@ import com.alibaba.fastjson.JSONObject;
  */
 @SuppressWarnings("serial")
 public class ValidateLogin extends HttpServlet {
+	private String username;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session = req.getSession();
-		String username = (String) session.getAttribute("user");
+		username = (String) session.getAttribute("user");
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html; charset=utf-8");

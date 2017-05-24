@@ -11,11 +11,12 @@
 		<result property="fileType" column="FILETYPE" jdbcType="VARCHAR" />
 		<result property="filePath" column="FILEPATH" jdbcType="VARCHAR" />
 		<result property="kinds" column="KINDS" jdbcType="VARCHAR" />
+		<result property="size" column="SIZE" jdbcType="DECIMAL" />
 	</resultMap>
 	<!-- 根据文件ID查找文件 -->
 	<select id="selectFile" parameterType="String" resultMap="FileResult">
 		select
-		ID,FILENAME,FILETYPE,FILEPATH,KINDS FROM file where id=#{fileId}
+		ID,FILENAME,FILETYPE,FILEPATH,KINDS,SIZE FROM file where id=#{fileId}
 	</select>
 	<!-- 根据文件路径查找文件 -->
 	<select id="listFile" parameterType="String" resultMap="FileResult">
@@ -40,13 +41,13 @@
 	<insert id="insertFile" parameterType="com.yunpan.bean.Document"
 		useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO
-		file(filename,filetype,filepath,kinds)
-		VALUES(#{fileName},#{fileType},#{filePath},#{kinds});
+		file(filename,filetype,filepath,kinds,size)
+		VALUES(#{fileName},#{fileType},#{filePath},#{kinds},#{size});
 	</insert>
-	<!-- 删除文件 (用到文件名，文件路径) 删除文件夹同样要用此操作 -->
-	<delete id="deleteFile" parameterType="com.yunpan.bean.Document">
-		DELETE FROM file where
-		FILENAME=#{fileName} AND FILEPATH=#{filePath}
+	<!-- 删除文件 (用到文件名id) 删除文件夹同样要用此操作 -->
+	<delete id="deleteFile" parameterType="String">
+		DELETE FROM file WHERE
+		id=#{fileId}
 	</delete>
 	<!-- 删除某个文件夹下所有文件，用到文件路径 -->
 	<delete id="deleteFolder" parameterType="String">
@@ -58,4 +59,8 @@
 		UPDATE file set
 		FILENAME=#{fileName} where ID=#{id}
 	</update>
+	<!-- 统计某文件夹下所有文件的大小 -->
+	<select id="countSize" parameterType="String" resultType="float">
+		SELECT SUM(size) FROM file WHERE FILEPATH LIKE CONCAT('%',#{filepath},'%')
+	</select>
 </mapper>
