@@ -154,10 +154,10 @@
 		<filter-name>login</filter-name>
 		<url-pattern>/getallfiles</url-pattern>
 	</filter-mapping>
-	<filter-mapping>
+<!-- 	<filter-mapping>
 		<filter-name>login</filter-name>
 		<url-pattern>/download</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
 	<filter-mapping>
 		<filter-name>login</filter-name>
 		<url-pattern>/vchecklogin</url-pattern>
