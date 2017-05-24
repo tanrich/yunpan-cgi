@@ -154,19 +154,18 @@
 		<filter-name>login</filter-name>
 		<url-pattern>/getallfiles</url-pattern>
 	</filter-mapping>
-<!-- 	<filter-mapping>
+	<filter-mapping>
 		<filter-name>login</filter-name>
 		<url-pattern>/download</url-pattern>
-	</filter-mapping> -->
+	</filter-mapping>
 	<filter-mapping>
 		<filter-name>login</filter-name>
 		<url-pattern>/vchecklogin</url-pattern>
 	</filter-mapping>
-<!-- 	<filter-mapping>
+	<filter-mapping>
 		<filter-name>login</filter-name>
 		<url-pattern>/upload</url-pattern>
-	</filter-mapping> -->
-
+	</filter-mapping>
 	<filter-mapping>
 		<filter-name>login</filter-name>
 		<url-pattern>/filerename</url-pattern>
@@ -174,5 +173,13 @@
 	<filter-mapping>
 		<filter-name>login</filter-name>
 		<url-pattern>/folderrename</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>login</filter-name>
+		<url-pattern>/delete</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>login</filter-name>
+		<url-pattern>/getkinds</url-pattern>
 	</filter-mapping>
 </web-app>

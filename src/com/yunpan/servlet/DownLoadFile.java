@@ -43,7 +43,7 @@ public class DownLoadFile extends HttpServlet {
 			String filePath = doc.getFilePath();
 			String fileName  = doc.getFileName();
 			// 获取/upload/系统路径
-			String systemPath = req.getServletContext().getRealPath("/upload/")  +filePath+"/"+fileName+"."+fileType;
+			String systemPath = "E:\\upload"   +filePath+"/"+fileName+"."+fileType;
 			File file = new File(systemPath);
 			//判断文件是否存在,存在则下载，不存在则返回
 			String f = fileName+"."+fileType;

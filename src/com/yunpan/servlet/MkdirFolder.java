@@ -40,10 +40,10 @@ public class MkdirFolder extends HttpServlet {
 		int id = 0;
 		if (path.equals("/")) {
 			filePath = "/" + username;
-			systemPath = req.getServletContext().getRealPath("/upload") + filePath + "/" + folderName;
+			systemPath = "E:\\upload"  + filePath + "/" + folderName;
 		} else {
 			filePath = "/" + username + path;
-			systemPath = req.getServletContext().getRealPath("/upload") + filePath + "/" + folderName;
+			systemPath = "E:\\upload"  + filePath + "/" + folderName;
 		}
 		// 文件对象
 		Document doc = new Document();

@@ -1,5 +1,6 @@
 package com.yunpan.servlet;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -38,7 +39,9 @@ public class Register extends HttpServlet {
 				// 将新注册的用户信息新增到用户表之中
 				user.setUsername(r_username);
 				user.setPassword(r_password);
-				
+				String name = "E:\\upload\\"+r_username;
+				File file = new File(name);
+				file.mkdir();
 				x = userDao.insertUser(user);
 				if (x != 0) {
 					x = userRoomDao.insertRoom(String.valueOf(x));

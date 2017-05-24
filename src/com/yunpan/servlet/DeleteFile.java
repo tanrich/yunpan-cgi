@@ -51,7 +51,7 @@ public class DeleteFile extends HttpServlet {
 			float fileSize = 0;
 			float userSize = 0;
 			// ÅÐ¶ÏÊÇ·ñÉ¾³ýÎÄ¼þ¼Ð
-			systemPath = req.getServletContext().getRealPath("/upload") + filePath;
+			systemPath = "E:\\upload"  + filePath;
 			if (fileType.equals("folder")) {
 				File folder = new File(systemPath + "/" + fileName);
 				System.out.println(folder.getPath());

@@ -41,7 +41,7 @@ public class FolderRename extends HttpServlet {
 			oldFolderpath = filePath+"/"+oldFolderName;
 			newFolderpath = filePath+"/"+newFolderName;
 			//文件夹所在路径
-			systemPath = req.getServletContext().getRealPath("/upload")+filePath;
+			systemPath = "E:\\upload" +filePath;
 			File oldFolder = new File(systemPath+"/"+oldFolderName);
 			File newFolder = new File(systemPath+"/"+newFolderName);
 			if(oldFolder.exists()){

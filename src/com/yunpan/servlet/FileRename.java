@@ -44,7 +44,7 @@ public class FileRename extends HttpServlet {
 			filePath = doc.getFilePath();
 			oldFileName = doc.getFileName();
 			// 文件所在目录
-			systemPath = req.getServletContext().getRealPath("/upload") + filePath+"/";
+			systemPath = "E:\\upload"  + filePath+"/";
 			File oldFile = new File(systemPath + oldFileName + "." + fileType);
 			File newFile = new File(systemPath + newFileName + "." + fileType);
 			if (oldFile.exists()) {

@@ -85,11 +85,11 @@ public class UploadFile extends HttpServlet {
 					path = value;
 					System.out.println("得到的path:::" + path);
 					if (path.equals("/")) {
-						systemPath = req.getServletContext().getRealPath("/upload/") + username;
+						systemPath = "E:\\upload\\" + username;
 						filePath="/"+username;
 
 					} else {
-						systemPath = req.getServletContext().getRealPath("/upload/") + username + path;
+						systemPath = "E:\\upload\\"  + username + path;
 						filePath = "/" + username + path;
 					}
 
@@ -141,6 +141,7 @@ public class UploadFile extends HttpServlet {
 					// 获取item中的上传文件的输入流
 					InputStream in = item.getInputStream();
 					// 创建一个文件输出流
+					System.out.println("路径在这里::::"+systemPath);
 					FileOutputStream out = new FileOutputStream(systemPath + "/" + filename);
 					// 创建一个缓冲区
 					byte buffer[] = new byte[1024];
