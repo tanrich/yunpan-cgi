@@ -24,8 +24,10 @@ public class ValidateCheckCode extends HttpServlet{
 		resp.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html; charset=utf-8");
 		String checkCode = req.getParameter("checkCode");
+		System.out.println("得到的checkCode    "+checkCode);
 		HttpSession session = req.getSession();
 		String verifyCode = (String) session.getAttribute("verifyCode");
+		System.out.println("session中的verifyCode   "+verifyCode);
 		JSONObject json = new JSONObject();
 		PrintWriter out = resp.getWriter();
 		if(checkCode.equals(verifyCode)){

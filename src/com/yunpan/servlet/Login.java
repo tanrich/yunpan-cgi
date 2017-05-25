@@ -37,14 +37,14 @@ public class Login extends HttpServlet {
 		try {
 			User user = userDao.queryUser(username);
 
-			if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+			if (username.equals(user.getUsername()) && password.equals(user.getPassword())) {
 				session.setAttribute("user", username);
 				System.out.println("success");
 				json.put("status", 1);
 			} else
 				json.put("status", 0);
 		} catch (Exception e) {
-			e.printStackTrace();
+			json.put("status", 0);
 		}finally {
 			out.write(json.toString());
 			out.flush();

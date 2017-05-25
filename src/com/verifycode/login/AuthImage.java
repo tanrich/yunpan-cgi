@@ -1,19 +1,15 @@
 package com.verifycode.login;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+
 
 import javax.servlet.ServletException;  
 import javax.servlet.http.HttpServletRequest;  
 import javax.servlet.http.HttpServletResponse;  
 import javax.servlet.http.HttpSession;
 
-import com.alibaba.fastjson.JSONObject;
 
-/**
- * <p><b>AuthImage Description:</b> (验证码)</p>
- * <b>DATE:</b> 2016年6月2日 下午3:53:12
- */
+
 public class AuthImage extends javax.servlet.http.HttpServlet implements javax.servlet.Servlet {  
   
 	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {  
@@ -30,7 +26,7 @@ public class AuthImage extends javax.servlet.http.HttpServlet implements javax.s
         session.removeAttribute("verifyCode");
         session.setAttribute("verifyCode", verifyCode.toLowerCase());
        
-        System.out.println(session.getAttribute("verifyCode"));
+        System.out.println("更新后的session中的    "+session.getAttribute("verifyCode"));
         //生成图片  
         int w = 100, h = 30;  
         VerifyCodeUtils.outputImage(w, h, response.getOutputStream(), verifyCode);  

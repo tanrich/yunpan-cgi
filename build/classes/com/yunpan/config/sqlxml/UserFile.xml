@@ -34,6 +34,6 @@
 	<select id="selectFileByKinds" parameterType="com.yunpan.bean.UserFile" resultMap="FileResult">
 		SELECT DISTINCT
 		file.id,file.filename,file.filepath,file.filetype,file.kinds,file.size
-		FROM file,user_file where user_file.userid =#{userId.id} AND file.kinds =#{fileId.kinds}
+		FROM file WHERE file.kinds =#{fileId.kinds} AND file.id in(SELECT fileid from user_file where userid =#{userId.id} GROUP BY fileid)
 	</select>
 </mapper>
