@@ -7,42 +7,33 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSONObject;
-/**
- * 退出登录
- * @author lon
- *
- */
-public class LogOut extends HttpServlet{
-	/**
-	 * 
-	 */
+import com.yunpan.bean.UserShare;
+import com.yunpan.dao.UserShareDao;
+
+public class Share extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
-		
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html; charset=utf-8");
-		JSONObject json = new JSONObject();
 		PrintWriter out = resp.getWriter();
+		JSONObject json = new JSONObject();
+		String url = "http://localhost:8080/share?url="+req.getParameter("url");
+		//获取数据库
+		UserShareDao userShareDao = new UserShareDao();
 		try {
-			session.setAttribute("user",null);
-			json.put("status", 1);
+			UserShare userShare = new UserShare();
+			userShare = userShareDao.selectShare(url);
+			json.put("data", userShare);
 		} catch (Exception e) {
-			json.put("status", 0);
-		}	
+			e.printStackTrace();
+		}
 		out.write(json.toJSONString());
-		out.flush();
 		out.close();
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
 	}
 }

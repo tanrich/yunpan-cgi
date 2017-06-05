@@ -10,7 +10,7 @@
 		<association property="userId" column="USERID"
 			javaType="com.yunpan.bean.User" select="User.selectUser"></association>
 		<association property="fileId" column="FILEID"
-			javaType="com.yunpan.bean.Document" select="File.selectFile"></association>
+			javaType="com.yunpan.bean.Document" select="Document.selectFile"></association>
 	</resultMap>
 	<resultMap type="com.yunpan.bean.Document" id="FileResult">
 		<id property="id" column="ID" jdbcType="INTEGER" />

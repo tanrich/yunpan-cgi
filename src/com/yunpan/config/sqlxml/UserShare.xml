@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserShare">
+
+	<resultMap type="com.yunpan.bean.UserShare" id="UserShareResult">
+		<id property="id" column="ID" jdbcType="INTEGER" />
+		<result property="url" column="URL" jdbcType="VARCHAR" />
+		<result property="code" column="CODE" jdbcType="VARCHAR" />
+		<result property="dateTime" column="DATETIME" jdbcType="VARCHAR" />
+		<result property="saveTimes" column="SAVETIMES" jdbcType="INTEGER" />
+		<result property="downloadTimes" column="DOWNLOADTIMES"
+			jdbcType="INTEGER" />
+		<result property="status" column="STATUS" jdbcType="VARCHAR" />
+		<association property="userId" column="USERID"
+			javaType="com.yunpan.bean.User" select="User.selectUser">
+		</association>
+		<association property="fileId" column="FILEID"
+			javaType="com.yunpan.bean.Document" select="Document.selectFile"></association>
+	</resultMap>
+	<!-- 新增用户分享记录 -->
+	<insert id="insertShare" parameterType="com.yunpan.bean.UserShare">
+		INSERT INTO
+		user_share(url,code,datetime,status,userid,fileid)
+		VALUES(#{url},#{code},#{dateTime},#{status},#{userId.id},#{fileId.id})
+	</insert>
+	<!-- 删除用户分享记录 -->
+	<delete id="deleteShare" parameterType="String">
+		delete from user_share
+		where id=#{id}
+	</delete>
+	<!-- 查看用户所有的分享 -->
+	<select id="selectAllShare" parameterType="com.yunpan.bean.User"
+		resultMap="UserShareResult">
+		select
+		id,url,code,datetime,savetimes,downloadtimes,status,userid,fileid from
+		user_share where userid=#{userId.id}
+	</select>
+	<!-- 根据url查找分享出来的文件 -->
+	<select id="selectShare" parameterType="String" resultMap="UserShareResult">
+		select
+		id,url,code,datetime,savetimes,downloadtimes,status,userid,fileid from
+		user_share where url=#{url}
+	</select>
+</mapper>

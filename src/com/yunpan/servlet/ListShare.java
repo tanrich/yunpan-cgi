@@ -10,39 +10,36 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yunpan.bean.User;
+import com.yunpan.dao.UserDao;
+import com.yunpan.dao.UserShareDao;
 /**
- * 退出登录
- * @author lon
+ * 
+ * 
+ * @author lon获取用户所有分享结果
  *
  */
-public class LogOut extends HttpServlet{
-	/**
-	 * 
-	 */
+public class ListShare extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session = req.getSession();
-		
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html; charset=utf-8");
-		JSONObject json = new JSONObject();
+		HttpSession session = req.getSession();
+		String username = (String) session.getAttribute("user");
+		UserDao userDao = new UserDao();
+		UserShareDao userShareDAo = new UserShareDao();
 		PrintWriter out = resp.getWriter();
+		JSONObject json = new JSONObject();
 		try {
-			session.setAttribute("user",null);
-			json.put("status", 1);
+			User user = userDao.queryUser(username);
+			
 		} catch (Exception e) {
-			json.put("status", 0);
-		}	
-		out.write(json.toJSONString());
-		out.flush();
-		out.close();
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+			e.printStackTrace();
+		}
+		json.put("data", 0);
 	}
 }

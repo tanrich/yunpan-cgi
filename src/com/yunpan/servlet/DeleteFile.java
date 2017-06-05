@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import com.alibaba.fastjson.JSONObject;
 import com.yunpan.bean.Document;
 import com.yunpan.bean.User;
-import com.yunpan.bean.UserRoom;
 import com.yunpan.dao.FileDao;
 import com.yunpan.dao.UserDao;
 import com.yunpan.dao.UserRoomDao;
@@ -25,6 +24,11 @@ import com.yunpan.service.FileService;
  *
  */
 public class DeleteFile extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
