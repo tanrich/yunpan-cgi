@@ -202,4 +202,28 @@ public class FileDao {
 		}
 		return size;
 	}
+	/**
+	 * Ä£ºý²éÕÒ
+	 */
+	public List<Document> likeQuery(Integer id,String fileName){
+		DBAccess db = new DBAccess();
+		SqlSession sqlSession=null;
+		Document doc = new Document();
+		doc.setId(id);
+		doc.setFileName(fileName);
+		List<Document> list = new ArrayList<Document>();
+		try {
+			sqlSession = db.getSqlSession();
+			list = sqlSession.selectList("Document.likeQuery",doc);
+			sqlSession.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if (sqlSession != null) {
+				sqlSession.close();
+			}
+		}
+		return list;
+		
+	}
 }

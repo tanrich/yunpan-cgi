@@ -2,7 +2,9 @@ package com.yunpan.dao;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -30,10 +32,11 @@ public class UserShareDao {
 			}
 		}
 	}
+
 	/**
 	 * 删除用户分享记录
 	 */
-	public void deleteShare(String id){
+	public void deleteShare(String id) {
 		DBAccess db = new DBAccess();
 		SqlSession sqlSession = null;
 		try {
@@ -48,10 +51,11 @@ public class UserShareDao {
 			}
 		}
 	}
+
 	/**
 	 * 查看用户所有的分享
 	 */
-	public List<UserShare> selectAllShare(User user){
+	public List<UserShare> selectAllShare(User user) {
 		DBAccess db = new DBAccess();
 		SqlSession sqlSession = null;
 		List<UserShare> list = new ArrayList<UserShare>();
@@ -68,10 +72,11 @@ public class UserShareDao {
 		}
 		return list;
 	}
+
 	/**
 	 * 根据url查找分享出来的文件
 	 */
-	public UserShare selectShare(String url){
+	public UserShare selectShare(String url) {
 		DBAccess db = new DBAccess();
 		SqlSession sqlSession = null;
 		UserShare userShare = new UserShare();
@@ -87,5 +92,63 @@ public class UserShareDao {
 			}
 		}
 		return userShare;
+	}
+	/**
+	 * 根据id查找分享出来的文件
+	 */
+	public UserShare selectShareById(String id) {
+		DBAccess db = new DBAccess();
+		SqlSession sqlSession = null;
+		UserShare userShare = new UserShare();
+		try {
+			sqlSession = db.getSqlSession();
+			userShare = sqlSession.selectOne("UserShare.selectShareById", id);
+			sqlSession.commit();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (sqlSession != null) {
+				sqlSession.close();
+			}
+		}
+		return userShare;
+	}
+	/**
+	 * 下载次数加1
+	 */
+	public void updateDLtimes(String id) {
+		DBAccess db = new DBAccess();
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = db.getSqlSession();
+			sqlSession.update("UserShare.updateDLtimes", id);
+			sqlSession.commit();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (sqlSession != null) {
+				sqlSession.close();
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * 保存次数加1
+	 */
+	public void updateStimes(String id) {
+		DBAccess db = new DBAccess();
+		SqlSession sqlSession = null;
+		try {
+			sqlSession = db.getSqlSession();
+			sqlSession.update("UserShare.updateStimes", id);
+			sqlSession.commit();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (sqlSession != null) {
+				sqlSession.close();
+			}
+		}
 	}
 }

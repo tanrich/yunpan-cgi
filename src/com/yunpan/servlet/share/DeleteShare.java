@@ -1,4 +1,4 @@
-package com.yunpan.servlet;
+package com.yunpan.servlet.share;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -7,19 +7,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSONObject;
-import com.yunpan.bean.User;
-import com.yunpan.dao.UserDao;
+
 import com.yunpan.dao.UserShareDao;
-/**
- * 
- * 
- * @author lon获取用户所有分享结果
- *
- */
-public class ListShare extends HttpServlet {
+
+public class DeleteShare extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,19 +20,18 @@ public class ListShare extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
-		resp.setContentType("text/html; charset=utf-8");
-		HttpSession session = req.getSession();
-		String username = (String) session.getAttribute("user");
-		UserDao userDao = new UserDao();
-		UserShareDao userShareDAo = new UserShareDao();
-		PrintWriter out = resp.getWriter();
 		JSONObject json = new JSONObject();
+		PrintWriter out = resp.getWriter();
+		// 分享记录的id
+		String id = req.getParameter("id");
+		UserShareDao userShareDao = new UserShareDao();
 		try {
-			User user = userDao.queryUser(username);
-			
+			userShareDao.deleteShare(id);
+			json.put("status", 1);
 		} catch (Exception e) {
-			e.printStackTrace();
+			json.put("status", "删除失败");
 		}
-		json.put("data", 0);
+		out.write(json.toString());
+		out.close();
 	}
 }

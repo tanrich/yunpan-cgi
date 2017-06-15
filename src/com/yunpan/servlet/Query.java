@@ -2,38 +2,49 @@ package com.yunpan.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSONObject;
-import com.yunpan.bean.UserShare;
-import com.yunpan.dao.UserShareDao;
+import com.yunpan.bean.Document;
+import com.yunpan.bean.User;
+import com.yunpan.dao.FileDao;
+import com.yunpan.dao.UserDao;
 
-public class Share extends HttpServlet {
+/**
+ * 模糊查询
+ *
+ */
+@SuppressWarnings("serial")
+public class Query extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
+	
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		resp.setCharacterEncoding("utf-8");
 		resp.setContentType("text/html; charset=utf-8");
+		HttpSession session = req.getSession();
+		String username = (String) session.getAttribute("user");
+		String fileName = req.getParameter("fileName");
 		PrintWriter out = resp.getWriter();
 		JSONObject json = new JSONObject();
-		String url = "http://localhost:8080/share?url="+req.getParameter("url");
-		//获取数据库
-		UserShareDao userShareDao = new UserShareDao();
+		FileDao fileDao = new FileDao();
+		UserDao userDao = new UserDao();
 		try {
-			UserShare userShare = new UserShare();
-			userShare = userShareDao.selectShare(url);
-			json.put("data", userShare);
+			User user = userDao.queryUser(username);
+			List<Document> list = fileDao.likeQuery(user.getId(), fileName);
+			json.put("data", list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		out.write(json.toJSONString());
+		out.write(json.toString());
 		out.close();
 	}
 }

@@ -61,6 +61,12 @@
 	</update>
 	<!-- 统计某文件夹下所有文件的大小 -->
 	<select id="countSize" parameterType="String" resultType="float">
-		SELECT SUM(size) FROM file WHERE FILEPATH LIKE CONCAT('%',#{filepath},'%')
+		SELECT
+		SUM(size) FROM file WHERE FILEPATH LIKE CONCAT('%',#{filepath},'%')
+	</select>
+	<!-- 查找文件 -->
+	<select id="likeQuery" parameterType="com.yunpan.bean.Document" resultMap="FileResult">
+		SELECT *from file WHERE id IN (SELECT fileid from
+		user_file where userid=#{id}) AND filename like CONCAT('%',#{fileName},'%')
 	</select>
 </mapper>

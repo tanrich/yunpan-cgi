@@ -8,36 +8,60 @@
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 	<servlet>
-		<servlet-name>InsertShare</servlet-name>
-		<servlet-class>com.yunpan.servlet.InsertShare</servlet-class>
+		<servlet-name>ManagerLogin</servlet-name>
+		<servlet-class>com.yunpan.servlet.share.ManagerLogin</servlet-class>
 	</servlet>
-	<servlet-mapping>	
+	<servlet-mapping>
+		<servlet-name>ManagerLogin</servlet-name>
+		<url-pattern>/manager</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Query</servlet-name>
+		<servlet-class>com.yunpan.servlet.Query</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Query</servlet-name>
+		<url-pattern>/query</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SaveShare</servlet-name>
+		<servlet-class>com.yunpan.servlet.share.SaveShare</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SaveShare</servlet-name>
+		<url-pattern>/saveshare</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>InsertShare</servlet-name>
-		<url-pattern>/getshare</url-pattern>
+		<servlet-class>com.yunpan.servlet.share.InsertShare</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>InsertShare</servlet-name>
+		<url-pattern>/createshare</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>Share</servlet-name>
-		<servlet-class>com.yunpan.servlet.Share</servlet-class>
+		<servlet-class>com.yunpan.servlet.share.Share</servlet-class>
 	</servlet>
-	<servlet-mapping>	
+	<servlet-mapping>
 		<servlet-name>Share</servlet-name>
 		<url-pattern>/share</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>DeleteShare</servlet-name>
-		<servlet-class>com.yunpan.servlet.DeleteShare</servlet-class>
+		<servlet-class>com.yunpan.servlet.share.DeleteShare</servlet-class>
 	</servlet>
-	<servlet-mapping>	
+	<servlet-mapping>
 		<servlet-name>DeleteShare</servlet-name>
-		<url-pattern>/s</url-pattern>
+		<url-pattern>/deleteshare</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>ListShare</servlet-name>
-		<servlet-class>com.yunpan.servlet.ListShare</servlet-class>
+		<servlet-class>com.yunpan.servlet.share.ListShare</servlet-class>
 	</servlet>
-	<servlet-mapping>	
+	<servlet-mapping>
 		<servlet-name>ListShare</servlet-name>
-		<url-pattern>/ss</url-pattern>
+		<url-pattern>/getallshare</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>ValidateRoomSpace</servlet-name>

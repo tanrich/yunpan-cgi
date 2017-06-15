@@ -1,4 +1,4 @@
-package com.yunpan.servlet;
+package com.yunpan.servlet.share;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -44,9 +44,10 @@ public class InsertShare extends HttpServlet {
 		UserDao userDao = new UserDao();
 		UserShare userShare = new UserShare();
 		// 生成分享的url
-		String url = "http://localhost:8080/share?url=" + username + VerifyCodeUtils.generateVerifyCode(6);
+		String string =VerifyCodeUtils.generateVerifyCode(9);
+		String url = username + string.substring(0,4);
 		// 生成提取码
-		String code = VerifyCodeUtils.generateVerifyCode(4);
+		String code = string.substring(4).toLowerCase();
 		//生成时间
 		Date date = new Date();
 		SimpleDateFormat formate;
@@ -63,11 +64,11 @@ public class InsertShare extends HttpServlet {
 			userShare.setUrl(url);
 			userShare.setDateTime(time);
 			userShare.setStatus(status);
-			System.out.println("生成的链接"+url);
 			userShareDao.insertShare(userShare);
+			json.put("status", 1);
 			json.put("data", userShare);
 		} catch (Exception e) {
-			e.printStackTrace();
+			json.put("status", 0);
 		}
 		out.write(json.toString());
 		out.close();

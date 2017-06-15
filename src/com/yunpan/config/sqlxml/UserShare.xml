@@ -36,7 +36,7 @@
 		resultMap="UserShareResult">
 		select
 		id,url,code,datetime,savetimes,downloadtimes,status,userid,fileid from
-		user_share where userid=#{userId.id}
+		user_share where userid=#{id}
 	</select>
 	<!-- 根据url查找分享出来的文件 -->
 	<select id="selectShare" parameterType="String" resultMap="UserShareResult">
@@ -44,4 +44,20 @@
 		id,url,code,datetime,savetimes,downloadtimes,status,userid,fileid from
 		user_share where url=#{url}
 	</select>
+	<!-- 根据id查找分享出来的文件 -->
+	<select id="selectShareById" parameterType="String" resultMap="UserShareResult">
+		select
+		id,url,code,datetime,savetimes,downloadtimes,status,userid,fileid from
+		user_share where id=#{id}
+	</select>
+	<!-- 下载次数加1 -->
+	<update id="updateDLtimes" parameterType="String">
+		UPDATE user_share SET
+		downloadTimes=downloadTimes+1 where id=#{id}
+	</update>
+	<!-- 保存次数加1 -->
+	<update id="updateStimes" parameterType="String">
+		UPDATE user_share SET saveTimes=saveTimes+1 where
+		id=#{id}
+	</update>
 </mapper>

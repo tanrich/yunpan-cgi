@@ -12,13 +12,8 @@ import javax.servlet.http.HttpSession;
 import com.alibaba.fastjson.JSONObject;
 /**
  * ÍË³öµÇÂ¼
- * @author lon
- *
  */
 public class LogOut extends HttpServlet{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Override
@@ -41,8 +36,5 @@ public class LogOut extends HttpServlet{
 		out.close();
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-	}
+	
 }

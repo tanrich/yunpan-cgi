@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.alibaba.fastjson.JSONObject;
 import com.yunpan.bean.Document;
 import com.yunpan.bean.User;
 import com.yunpan.bean.UserFile;
@@ -55,9 +53,7 @@ public class MkdirFolder extends HttpServlet {
 		// 用户文件关系对象
 		UserFile userFile = new UserFile();
 		User user = new User();
-		// userFile.setUserId(userDao.queryUser(username).getId());
 		int fileId = 0;
-
 		System.out.println(systemPath);
 		File file = new File(systemPath);
 	

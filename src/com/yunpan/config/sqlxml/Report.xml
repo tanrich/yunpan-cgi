@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Report">
+
+	<resultMap type="com.yunpan.bean.Report" id="ReportResult">
+		<id property="id" column="ID" jdbcType="INTEGER" />
+		<result property="reason" column="REASON" jdbcType="VARCHAR" />
+		<result property="dateTime" column="DATETIME" jdbcType="VARCHAR" />
+		<result property="reportStatus" column="REPORTSTATUS" jdbcType="VARCHAR" />
+		<association property="fileId" column="FILEID"
+			javaType="com.yunpan.bean.Document" select="Document.selectFile"></association>
+	</resultMap>
+	<!-- 新增举报记录 -->
+	<insert id="insertReport" parameterType="com.yunpan.bean.Report">
+		INSERT INTO
+		report(fileid,reason,reportstatus,datetime)
+		VALUES(#{fileId.id},#{reason},#{reportStatus},#{dateTime})
+	</insert>
+	<!-- 处理举报记录 -->
+	<update id="updateReport" parameterType="com.yunpan.bean.Report">
+		update report set
+		reportStatus=#{reportStatus} where id =#{id}
+	</update>
+	<!-- 查看未处理的举报记录 -->
+	<select id="selectReport" parameterType="String" resultMap="ReportResult">
+		select id,reason,dateTime,reportStatus,fileId from report where
+		reportStatus=#{reportStatus}
+	</select>
+	<!-- 查看所有举报记录 -->
+	<select id="selectAllReport" resultMap="ReportResult">
+		select id,reason,dateTime,reportStatus,fileId from report
+	</select>
+</mapper>
